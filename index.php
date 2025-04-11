@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect("localhost", "uczen", "qazwsx", "gra");
+    $conn = mysqli_connect("localhost", "root", "", "gra");
     if (isset($_POST["play"])) {
         if (isset($_POST["nick"])) {
             $nick = $_POST["nick"];
@@ -48,7 +48,7 @@
     <h1>Kółko i krzyżyk</h1>
     <form action="index.php" method="post">
         <input type="text" name="nick" id="nickInput" maxlength="16">
-        <input type="submit" name="play" value="Play">
+        <input id="play" type="submit" name="play" value="Graj">
     </form>
     <footer>Grę wykonał Wojciech Ogórek i Bartosz Zawadzki-Pietrzak</footer>
 </body>

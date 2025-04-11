@@ -7,18 +7,22 @@
 }
 
 body {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #d1d1d1;
 }
 
+
 footer {
     font-size: 30px;
-    text-shadow: 5px 5px #8495b0;
+    text-shadow: 5px 5px #9c9c9c;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    position: fixed;
+    text-align: center;
     bottom: 0;
+    position: absolute;
     background-color: #b3b3b3;
     width: 100%;
     height: 100px;
@@ -27,12 +31,129 @@ footer {
 h1 {
     font-size: 100px;
     margin: 50px 0;
+    user-select: none;
 }
+
 
 #nickInput {
     height: 80px;
     border-radius: 20px;
     border: solid 4px #b3b3b3;
     font-size: 40px;
+    padding: 0px 20px;
+    width: 500px;
     
+}
+
+#play {
+    font-size: 40px;
+    background-color: #b3b3b3;
+    border-radius: 20px;
+    border: solid 4px #999999;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#play:hover {
+    background-color: #cecece;
+    transition: 0.3s;
+}
+#plansza  input {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    border: solid 4px #b3b3b3;
+    font-size: 40px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#plansza {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+#plansza input:hover {
+    background-color: #cecece;
+    transition: 0.3s;
+}
+#td0 {
+   border: solid 4px #b3b3b3;
+   border-left: none;
+   border-top: none;
+}
+#td1 {
+    border: solid 4px #b3b3b3;
+   border-top: none;
+}
+#td2 {
+    border: solid 4px #b3b3b3;
+   border-top: none;
+   border-right: none;
+   
+}
+#td3 {
+    border: solid 4px #b3b3b3;
+   border-left: none;
+}
+#td4 {
+    border: solid 4px #b3b3b3;
+}
+#td5 {
+    border: solid 4px #b3b3b3;
+   border-right: none;
+}
+#td6 {
+    border: solid 4px #b3b3b3;
+   border-left: none;
+   border-bottom: none;
+}
+#td7 {
+    border: solid 4px #b3b3b3;
+   border-bottom: none;
+}
+#td8 {
+    border: solid 4px #b3b3b3;
+   border-right: none;
+   border-bottom: none;
+}
+
+p {
+    display: inline;
+    font-size: 30px;
+}
+header {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+#centrujguzik {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+}
+#powrot {
+    font-size: 20px;
+    background-color: #b3b3b3;
+    border-radius: 20px;
+    border: solid 4px #999999;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+#powrot:hover {
+    background-color: #cecece;
+    transition: 0.3s;
 }

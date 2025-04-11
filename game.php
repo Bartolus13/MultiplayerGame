@@ -1,21 +1,29 @@
 <?php
 
-    $conn = mysqli_connect("localhost" ,"uczen", "qazwsx", "gra");
-    header('refresh: 1');
+    $conn = mysqli_connect("localhost" ,"root", "", "gra");
+    header('refresh: 2');
     $id_gracza = $_COOKIE["idGracza"];
     $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
     $nick = $_COOKIE["nick"];
     $sql = "SELECT id_gracza1, id_gracza2 FROM pomieszczenia WHERE id = $id_pomieszczenia";
     $gracze = mysqli_fetch_row(mysqli_query($conn, $sql));
-    if ($gracze[0] == $id_gracza) {
-        $id_gracza_2 = $gracze[1];
-        $tura = $id_gracza;
+    $sql = "SELECT liczba_graczy FROM pomieszczenia WHERE id = $id_pomieszczenia";
+    if (mysqli_fetch_row(mysqli_query($conn, $sql))[0] == 2) {
+        if ($gracze[0] == $id_gracza) {
+            $id_gracza_2 = $gracze[1];
+            $tura = $id_gracza;
+        } else {
+            $id_gracza_2 = $gracze[0];
+            $tura = $id_gracza_2;
+        }
+        $sql = "SELECT nick FROM gracze WHERE id = $id_gracza_2";
+        $nickPrzeciwnika = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
     } else {
-        $id_gracza_2 = $gracze[0];
-        $tura = $id_gracza_2;
+        $tura = $id_gracza;
+        $id_gracza_2 = -1;
+        $nickPrzeciwnika = "";
     }
-    $sql = "SELECT nick FROM gracze WHERE id = $id_gracza_2";
-    $nickPrzeciwnika = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
+    
   
 ?>
 
@@ -26,43 +34,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kółko i krzyżyk</title>
     <link rel="stylesheet" href="styl.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap" rel="stylesheet">
 </head>
 <body>
+    <h1>Kółko i krzyżyk</h1>
     <header> 
-        <h1>Kółko i krzyżyk</h1>
-        <h2>Witaj w grze!</h2>
-        <p>Twoje ID gracza: <?php echo $id_gracza; ?>, Nick: <?php echo $nick; ?></p>
-        <p>Twoje ID pomieszczenia: <?php echo $id_pomieszczenia; ?></p>
+        
+        <p>TY: <?php echo $nick; ?> (<?php echo $id_gracza; ?>)</p><br>
+        
         
         <?php
             if ($id_gracza_2 != -1) {
-                echo "<p>ID przeciwnika: $id_gracza_2, Nick: $nickPrzeciwnika</p>";
+                echo "<p>PRZECIWNIK: $nickPrzeciwnika ($id_gracza_2)</p>";
             } else {
                 echo "<p>Czekanie na przeciwnika...</p>";
             }
-        ?>
+        ?><br>
+        <p>ID GRY: <?php echo $id_pomieszczenia; ?></p>
         
         
     </header>
     
     
     <!-- Robimy grę kółko i krzyżyk -->
-    <h3>Kółko i krzyżyk</h3>
     <div id="plansza">
-        <form action= "game.php" method="post">    
-        <input type="submit" id="przycisk0" name="przycisk" value="0">
-        <input type="submit" id="przycisk1" name="przycisk" value="1">
-        <input type="submit" id="przycisk2" name="przycisk" value="2"><br>
-        <input type="submit" id="przycisk3" name="przycisk" value="3">
-        <input type="submit" id="przycisk4" name="przycisk" value="4">
-        <input type="submit" id="przycisk5" name="przycisk" value="5"><br>
-        <input type="submit" id="przycisk6" name="przycisk" value="6">
-        <input type="submit" id="przycisk7" name="przycisk" value="7">
-        <input type="submit" id="przycisk8" name="przycisk" value="8"><br>
+        <form action= "game.php" method="post">
+        <table id="tabela">
+            <tr>
+                <td id="td0"><input type="submit" id="przycisk0" name="przycisk" value="0"></td>
+                <td id="td1"><input type="submit" id="przycisk1" name="przycisk" value="1"></td>
+                <td id="td2"><input type="submit" id="przycisk2" name="przycisk" value="2"></td>
+            </tr>
+            <tr>
+                <td id="td3"><input type="submit" id="przycisk3" name="przycisk" value="3"></td>
+                <td id="td4"><input type="submit" id="przycisk4" name="przycisk" value="4"></td>
+                <td id="td5"><input type="submit" id="przycisk5" name="przycisk" value="5"></td>
+            </tr>
+            <tr>
+                <td id="td6"><input type="submit" id="przycisk6" name="przycisk" value="6"></td>
+                <td id="td7"><input type="submit" id="przycisk7" name="przycisk" value="7"></td>
+                <td id="td8"><input type="submit" id="przycisk8" name="przycisk" value="8"></td>
+            </tr>        
         </form>
     </div>
+    <div id="centrujguzik">
+    <a  id="powrot" href="index.php">Wyjście</a>
+    </div>
 
-    <a href="index.php">WRACAJ</a>
+    
 
     <?php
          $sql = "SELECT plansza FROM pomieszczenia WHERE id = $id_pomieszczenia";
