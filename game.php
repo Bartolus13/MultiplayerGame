@@ -1,20 +1,22 @@
 <?php
 
-    $conn = mysqli_connect("localhost" ,"root", "", "gra");
+    $conn = mysqli_connect("localhost" ,"uczen", "qazwsx", "gra");
+    header('refresh: 1');
     $id_gracza = $_COOKIE["idGracza"];
     $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
+    $nick = $_COOKIE["nick"];
     $sql = "SELECT id_gracza1, id_gracza2 FROM pomieszczenia WHERE id = $id_pomieszczenia";
     $gracze = mysqli_fetch_row(mysqli_query($conn, $sql));
     if ($gracze[0] == $id_gracza) {
         $id_gracza_2 = $gracze[1];
+        $tura = $id_gracza;
     } else {
         $id_gracza_2 = $gracze[0];
+        $tura = $id_gracza_2;
     }
-
-    
-
-    
-    
+    $sql = "SELECT nick FROM gracze WHERE id = $id_gracza_2";
+    $nickPrzeciwnika = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
+  
 ?>
 
 <!DOCTYPE html>
@@ -22,20 +24,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gra Multiplayer</title>
+    <title>Kółko i krzyżyk</title>
     <link rel="stylesheet" href="styl.css">
 </head>
 <body>
     <header> 
-        <h1>Gra Multiplayer</h1>
+        <h1>Kółko i krzyżyk</h1>
         <h2>Witaj w grze!</h2>
-        <p>Twoje ID gracza: <?php echo $id_gracza; ?></p>
+        <p>Twoje ID gracza: <?php echo $id_gracza; ?>, Nick: <?php echo $nick; ?></p>
         <p>Twoje ID pomieszczenia: <?php echo $id_pomieszczenia; ?></p>
+        
+        <?php
+            if ($id_gracza_2 != -1) {
+                echo "<p>ID przeciwnika: $id_gracza_2, Nick: $nickPrzeciwnika</p>";
+            } else {
+                echo "<p>Czekanie na przeciwnika...</p>";
+            }
+        ?>
+        
+        
     </header>
     
     
     <!-- Robimy grę kółko i krzyżyk -->
-    <h3>Kółko-krzyżyk</h3>
+    <h3>Kółko i krzyżyk</h3>
     <div id="plansza">
         <form action= "game.php" method="post">    
         <input type="submit" id="przycisk0" name="przycisk" value="0">
@@ -53,9 +65,9 @@
     <a href="index.php">WRACAJ</a>
 
     <?php
-
          $sql = "SELECT plansza FROM pomieszczenia WHERE id = $id_pomieszczenia";
          $plansza = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
+         
          for ($i = 0; $i < 9; $i++) {
              if ($plansza[$i] == "O") {
                  echo "<script> document.getElementById('przycisk$i').setAttribute('value','O')</script>";
@@ -65,8 +77,7 @@
                  echo "<script> document.getElementById('przycisk$i').setAttribute('disabled','true')</script>";
              }
          }
-
-
+         
         function klikPrzycisku($nrPrzycisku) {
             global $conn, $id_gracza, $id_gracza_2, $id_pomieszczenia;
             $sql = "SELECT tura FROM pomieszczenia WHERE id = $id_pomieszczenia";
@@ -86,8 +97,6 @@
                     $plansza[(int)$nrPrzycisku] = $znak;
                     $sql = "UPDATE pomieszczenia SET plansza = '$plansza' WHERE id = $id_pomieszczenia";
                     mysqli_query($conn, $sql);
-                    echo $nrPrzycisku;
-                    echo $plansza;
                     $sql = "UPDATE pomieszczenia SET tura = $id_gracza_2 WHERE id = $id_pomieszczenia";
                     mysqli_query($conn, $sql);
                     echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('value','$znak')</script>";
@@ -103,12 +112,12 @@
         if (isset($_POST["przycisk"])) {
             $nrPrzycisku = $_POST["przycisk"];
             klikPrzycisku($nrPrzycisku);
-
+       
         }
     ?>
 
 </body>
 </html>
 <?php
-    mysqli_close($conn)
+    mysqli_close($conn);
 ?>

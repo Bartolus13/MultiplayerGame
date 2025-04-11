@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 09, 2025 at 08:21 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Host: localhost
+-- Czas generowania: 11 Kwi 2025, 11:17
+-- Wersja serwera: 10.8.3-MariaDB
+-- Wersja PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gra`
+-- Baza danych: `gra`
 --
 
 -- --------------------------------------------------------
@@ -28,8 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `gracze` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` int(11) NOT NULL,
+  `nick` varchar(16) NOT NULL DEFAULT 'Guest'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -40,11 +41,11 @@ CREATE TABLE `gracze` (
 CREATE TABLE `pomieszczenia` (
   `id` int(11) NOT NULL,
   `id_gracza1` int(11) NOT NULL,
-  `id_gracza2` int(11) NOT NULL,
+  `id_gracza2` int(11) NOT NULL DEFAULT -1,
   `liczba_graczy` int(11) NOT NULL,
   `plansza` varchar(10) NOT NULL DEFAULT '000000000',
   `tura` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indeksy dla zrzutów tabel
@@ -63,20 +64,20 @@ ALTER TABLE `pomieszczenia`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT dla zrzuconych tabel
 --
 
 --
--- AUTO_INCREMENT for table `gracze`
+-- AUTO_INCREMENT dla tabeli `gracze`
 --
 ALTER TABLE `gracze`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
--- AUTO_INCREMENT for table `pomieszczenia`
+-- AUTO_INCREMENT dla tabeli `pomieszczenia`
 --
 ALTER TABLE `pomieszczenia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
