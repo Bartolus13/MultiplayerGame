@@ -1,7 +1,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "Bungee Tint", sans-serif;
+    font-family: "Bungee Inline";
     font-weight: 400;
     font-style: normal;
 }
@@ -151,9 +151,17 @@ header {
     cursor: pointer;
     transition: 0.3s;
     text-decoration: none;
+    color: red;
 }
 
 #powrot:hover {
     background-color: #cecece;
     transition: 0.3s;
+}
+
+.kolor1 {
+    color: deepskyblue;
+}
+.kolor2 {
+    color: crimson;
 }

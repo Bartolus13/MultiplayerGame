@@ -1,6 +1,6 @@
 <?php
 
-    $conn = mysqli_connect("localhost" ,"root", "", "gra");
+    $conn = mysqli_connect("localhost" ,"uczen", "qazwsx", "gra");
     header('refresh: 2');
     $id_gracza = $_COOKIE["idGracza"];
     $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
@@ -36,23 +36,28 @@
     <link rel="stylesheet" href="styl.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap" rel="stylesheet">  
 </head>
 <body>
     <h1>Kółko i krzyżyk</h1>
     <header> 
         
-        <p>TY: <?php echo $nick; ?> (<?php echo $id_gracza; ?>)</p><br>
+    <div>
+        <p>TY: </p>
+        <p class="kolor1"><?php echo $nick; ?></p><br>
+    </div>  
         
-        
-        <?php
+    <div>
+    <?php
             if ($id_gracza_2 != -1) {
-                echo "<p>PRZECIWNIK: $nickPrzeciwnika ($id_gracza_2)</p>";
+                echo "<p>PRZECIWNIK: </p>";
+                echo "<p class='kolor2'>$nickPrzeciwnika</p>";
             } else {
                 echo "<p>Czekanie na przeciwnika...</p>";
             }
-        ?><br>
-        <p>ID GRY: <?php echo $id_pomieszczenia; ?></p>
+        ?>
+    </div><br>
+        
         
         
     </header>
