@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect("localhost", "uczen", "qazwsx", "gra");
+    $conn = mysqli_connect("localhost", "root", "", "gra");
     if (isset($_POST["play"])) {
         if (isset($_POST["nick"])) {
             $nick = $_POST["nick"];
@@ -31,6 +31,22 @@
         header("Location: game.php");
         exit();
     }
+    if (isset($_POST["powrot"])) {
+        $id_gracza = $_COOKIE["idGracza"];
+        $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
+
+        $ile_graczy = mysqli_fetch_row(mysqli_query($conn, "SELECT liczba_graczy FROM pomieszczenia WHERE id = $id_pomieszczenia"))[0];
+        $przeciwnik = $_COOKIE["przeciwnikID"];
+        if ($ile_graczy == 2) {
+            $sql = "UPDATE pomieszczenia SET liczba_graczy = 1, id_gracza1 = $przeciwnik, id_gracza2 = -1, plansza = '000000000' WHERE id = $id_pomieszczenia";
+        } else {
+            $sql = "DELETE FROM pomieszczenia WHERE id = $id_pomieszczenia";
+        }
+        mysqli_query($conn, $sql);
+        $sql = "DELETE FROM gracze WHERE id = $id_gracza";
+        mysqli_query($conn, $sql);
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +63,7 @@
 <body>
     <h1>Kółko i krzyżyk</h1>
     <form action="index.php" method="post">
-        <input type="text" name="nick" id="nickInput" maxlength="16">
+        <input type="text" name="nick" id="nickInput" maxlength="16" placeholder="Twój nick">
         <input id="play" type="submit" name="play" value="Graj" class="kolor2">
     </form>
     <footer>Grę wykonał Wojciech Ogórek i Bartosz Zawadzki-Pietrzak</footer>

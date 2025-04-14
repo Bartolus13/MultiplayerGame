@@ -1,6 +1,6 @@
 <?php
 
-    $conn = mysqli_connect("localhost" ,"uczen", "qazwsx", "gra");
+    $conn = mysqli_connect("localhost" ,"root", "", "gra");
     header('refresh: 2');
     $id_gracza = $_COOKIE["idGracza"];
     $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
@@ -51,10 +51,18 @@
     <?php
             if ($id_gracza_2 != -1) {
                 echo "<p>PRZECIWNIK: </p>";
-                echo "<p class='kolor2'>$nickPrzeciwnika</p>";
+                echo "<p class='kolor2'>$nickPrzeciwnika</p><br>";
+                setcookie("przeciwnikID", $id_gracza_2);
+                if ($tura == $id_gracza) {
+                    echo "<p class='kolor1'>Twój ruch!</p>";
+                } else {
+                    echo "<p class='kolor2'>Ruch przeciwnika</p>";
+                }
             } else {
                 echo "<p>Czekanie na przeciwnika...</p>";
             }
+
+            
         ?>
     </div><br>
         
@@ -85,7 +93,9 @@
         </form>
     </div>
     <div id="centrujguzik">
-    <a  id="powrot" href="index.php">Wyjście</a>
+        <form action="index.php" method="post">
+            <button id="powrot" name="powrot" value="exit">Wyjście</button>
+        </form>
     </div>
 
     
@@ -96,10 +106,10 @@
          
          for ($i = 0; $i < 9; $i++) {
              if ($plansza[$i] == "O") {
-                 echo "<script> document.getElementById('przycisk$i').setAttribute('value','O')</script>";
+                 echo "<script> document.getElementById('przycisk$i').setAttribute('value','〇')</script>";
                  echo "<script> document.getElementById('przycisk$i').setAttribute('disabled','true')</script>";
              } else if ($plansza[$i] == "X") {
-                 echo "<script> document.getElementById('przycisk$i').setAttribute('value','X')</script>";
+                 echo "<script> document.getElementById('przycisk$i').setAttribute('value','✖')</script>";
                  echo "<script> document.getElementById('przycisk$i').setAttribute('disabled','true')</script>";
              }
          }
@@ -125,7 +135,12 @@
                     mysqli_query($conn, $sql);
                     $sql = "UPDATE pomieszczenia SET tura = $id_gracza_2 WHERE id = $id_pomieszczenia";
                     mysqli_query($conn, $sql);
-                    echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('value','$znak')</script>";
+                    if ($znak == 'O') {
+                        echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('value','〇')</script>";
+                    } else {
+                        echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('value','✖')</script>";
+                    }
+                    
                     echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('disabled','true')</script>";
                 }
                 
