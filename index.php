@@ -16,7 +16,9 @@
         if ($minGraczy == 1) {
             $sql = "SELECT id FROM pomieszczenia WHERE liczba_graczy = 1";
             $id_pomieszczenia = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
-            $sql = "UPDATE pomieszczenia SET liczba_graczy = 2, id_gracza2 = $id_gracza WHERE id = $id_pomieszczenia";
+            $sql = "SELECT id_gracza1 FROM pomieszczenia WHERE id = $id_pomieszczenia";
+            $gracz1 = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
+            $sql = "UPDATE pomieszczenia SET liczba_graczy = 2, id_gracza2 = $id_gracza, tura = $gracz1 WHERE id = $id_pomieszczenia";
             mysqli_query($conn, $sql);
         } else {
             $sql = "INSERT INTO pomieszczenia (id_gracza1, liczba_graczy, tura) VALUES ($id_gracza, 1, $id_gracza)";

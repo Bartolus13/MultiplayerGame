@@ -1,7 +1,7 @@
 <?php
 
     $conn = mysqli_connect("localhost" ,"root", "", "gra");
-    header('refresh: 2');
+    header('refresh: 1');
     $id_gracza = $_COOKIE["idGracza"];
     $id_pomieszczenia = $_COOKIE["idPomieszczenia"];
     $nick = $_COOKIE["nick"];
@@ -44,15 +44,19 @@
         
     <div>
         <p>TY: </p>
-        <p class="kolor1"><?php echo $nick; ?></p><br>
+        <p class="kolor1"><?php echo $nick; ?> - <?php if ($id_gracza == $gracze[0]) {echo "〇";} else {echo "✖";} ?></p><br>
     </div>  
         
     <div>
     <?php
             if ($id_gracza_2 != -1) {
                 echo "<p>PRZECIWNIK: </p>";
-                echo "<p class='kolor2'>$nickPrzeciwnika</p><br>";
+                echo "<p class='kolor2'>$nickPrzeciwnika - ";
+                if ($id_gracza == $gracze[0]) {echo "✖";} else {echo "〇";}
+                echo "</p><br>";
                 setcookie("przeciwnikID", $id_gracza_2);
+                $sql = "SELECT tura FROM pomieszczenia WHERE id = $id_pomieszczenia";
+                $tura = mysqli_fetch_row(mysqli_query($conn, $sql))[0];
                 if ($tura == $id_gracza) {
                     echo "<p class='kolor1'>Twój ruch!</p>";
                 } else {
@@ -76,19 +80,19 @@
         <form action= "game.php" method="post">
         <table id="tabela">
             <tr>
-                <td id="td0"><input type="submit" id="przycisk0" name="przycisk" value="0"></td>
-                <td id="td1"><input type="submit" id="przycisk1" name="przycisk" value="1"></td>
-                <td id="td2"><input type="submit" id="przycisk2" name="przycisk" value="2"></td>
+                <td id="td0"><input type="submit" id="przycisk0" name="przycisk" class="hidden" value="0"></td>
+                <td id="td1"><input type="submit" id="przycisk1" name="przycisk" class="hidden" value="1"></td>
+                <td id="td2"><input type="submit" id="przycisk2" name="przycisk" class="hidden" value="2"></td>
             </tr>
             <tr>
-                <td id="td3"><input type="submit" id="przycisk3" name="przycisk" value="3"></td>
-                <td id="td4"><input type="submit" id="przycisk4" name="przycisk" value="4"></td>
-                <td id="td5"><input type="submit" id="przycisk5" name="przycisk" value="5"></td>
+                <td id="td3"><input type="submit" id="przycisk3" name="przycisk" class="hidden" value="3"></td>
+                <td id="td4"><input type="submit" id="przycisk4" name="przycisk" class="hidden" value="4"></td>
+                <td id="td5"><input type="submit" id="przycisk5" name="przycisk" class="hidden" value="5"></td>
             </tr>
             <tr>
-                <td id="td6"><input type="submit" id="przycisk6" name="przycisk" value="6"></td>
-                <td id="td7"><input type="submit" id="przycisk7" name="przycisk" value="7"></td>
-                <td id="td8"><input type="submit" id="przycisk8" name="przycisk" value="8"></td>
+                <td id="td6"><input type="submit" id="przycisk6" name="przycisk" class="hidden" value="6"></td>
+                <td id="td7"><input type="submit" id="przycisk7" name="przycisk" class="hidden" value="7"></td>
+                <td id="td8"><input type="submit" id="przycisk8" name="przycisk" class="hidden" value="8"></td>
             </tr>        
         </form>
     </div>
@@ -108,9 +112,11 @@
              if ($plansza[$i] == "O") {
                  echo "<script> document.getElementById('przycisk$i').setAttribute('value','〇')</script>";
                  echo "<script> document.getElementById('przycisk$i').setAttribute('disabled','true')</script>";
+                 echo "<script> document.getElementById('przycisk$i').setAttribute('class','')</script>";
              } else if ($plansza[$i] == "X") {
                  echo "<script> document.getElementById('przycisk$i').setAttribute('value','✖')</script>";
                  echo "<script> document.getElementById('przycisk$i').setAttribute('disabled','true')</script>";
+                 echo "<script> document.getElementById('przycisk$i').setAttribute('class','')</script>";
              }
          }
          
@@ -142,6 +148,7 @@
                     }
                     
                     echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('disabled','true')</script>";
+                    echo "<script> document.getElementById('przycisk$nrPrzycisku').setAttribute('class','')</script>";
                 }
                 
                 

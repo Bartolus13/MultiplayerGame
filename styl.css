@@ -122,6 +122,12 @@ h1 {
    border-bottom: none;
 }
 
+.hidden{
+    text-indent: 100%; 
+  white-space: nowrap; 
+  overflow: hidden; 
+}
+
 p {
     display: inline;
     font-size: 30px;
